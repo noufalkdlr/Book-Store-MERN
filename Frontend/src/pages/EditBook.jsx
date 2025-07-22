@@ -18,7 +18,7 @@ const EditBook = () => {
 
   useEffect(()=>{
     axios
-      .get(`http://localhost:5555/books/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/books/${id}`)
       .then((response)=>{
         const book = response.data;
         setTitle(book.title);
@@ -44,7 +44,7 @@ const EditBook = () => {
       publishYear,
     };
     axios
-      .put(`http://localhost:5555/books/${id}`, data)
+      .put(`${import.meta.env.VITE_API_URL}/books/${id}`, data)
       .then(() => {
         console.log("Book Updated");
         navigate("/");

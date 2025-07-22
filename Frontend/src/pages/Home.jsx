@@ -18,10 +18,10 @@ const Home = () => {
 
   const handleConfirmDelete = () => {
     axios
-      .delete(`http://localhost:5555/books/${selecedBookId}`)
+      .delete(`${import.meta.env.VITE_API_URL}/books/${selecedBookId}`)
       .then(()=>{
         setBooks(books.filter((book)=>{
-          book._id !== selecedBookId
+          return book._id !== selecedBookId
         }))
         setShowDeleteModel(false);
         console.log("Book Deleted");
@@ -34,7 +34,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5555/books")
+      .get(`${import.meta.env.VITE_API_URL}/books`)
       .then((response) => {
         setBooks(response.data.data);
         setLoading(false);

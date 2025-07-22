@@ -16,7 +16,7 @@ const ShowBook = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5555/books/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}books/${id}`)
       .then((response) => {
         setBook(response.data);
         setLoading(false);
@@ -29,7 +29,7 @@ const ShowBook = () => {
 
     const handleConfirmDelete = () => {
     axios
-      .delete(`http://localhost:5555/books/${id}`)
+      .delete(`${import.meta.env.VITE_API_URL}/books/${id}`)
       .then(()=>{
         
         navigate('/')
