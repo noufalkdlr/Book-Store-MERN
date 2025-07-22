@@ -1,13 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import BackButton from "../components/backButton";
+import DeleteModal from "../components/DeleteModal";
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showDeleteModel, setShowDeleteModel] = useState(false);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -23,8 +27,26 @@ const ShowBook = () => {
       });
   }, []);
 
+    const handleConfirmDelete = () => {
+    axios
+      .delete(`http://localhost:5555/books/${id}`)
+      .then(()=>{
+        
+        navigate('/')
+        console.log("Book Deleted");
+      })
+      .catch((error) =>{
+        console.log(error)
+      })
+  }
+
   return (
     <div className="min-h-screen bg-neutral-100 py-10 px-4">
+      {
+        showDeleteModel && <DeleteModal  onConfirm={handleConfirmDelete} onCancel={()=> setShowDeleteModel(false)}  />
+      }
+      
+
       {/* Back Button */}
       <div className="absolute top-4 left-4">
         <BackButton />
@@ -63,10 +85,10 @@ const ShowBook = () => {
 
         {/* Action Buttons */}
         <div className="mt-10 flex justify-end gap-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow transition duration-200">
+          <Link to={`/books/edit/${id}`}  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow transition duration-200">
             Edit
-          </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow transition duration-200">
+          </Link>
+          <button onClick={()=> setShowDeleteModel(true) } className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow transition duration-200">
             Delete
           </button>
         </div>
