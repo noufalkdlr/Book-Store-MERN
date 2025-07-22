@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors())
+app.use(cors());
 
 // app.use(cors({
 //     origin:'',
@@ -22,14 +22,14 @@ app.get("/", (requst, response) => {
   return response.status(234).send("Book store");
 });
 
-app.use('/books', bookRoute )
+app.use("/books", bookRoute);
 
 mongoose
   .connect(mongoDBURL)
   .then(() => {
     console.log("App connected to database");
     app.listen(PORT, () => {
-      console.log(`App is listening port:${PORT}`);
+      console.log(`✅ App is listening on port: ${PORT}`);
     });
   })
   .catch((error) => {
